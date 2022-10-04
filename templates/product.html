@@ -1,0 +1,393 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<nav class="navbar navbar-expand-lg bg-light">
+     <div class="container-fluid">
+
+          <a class="navbar-brand" href="#">Navbar scroll</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
+               aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+               <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarScroll">
+               <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+                    <li class="nav-item">
+                         <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                         <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                              aria-expanded="false">
+                              Link
+                         </a>
+                         <ul class="dropdown-menu">
+                              <li><a class="dropdown-item" href="#">Action</a></li>
+                              <li><a class="dropdown-item" href="#">Another action</a></li>
+                              <li>
+                                   <hr class="dropdown-divider">
+                              </li>
+                              <li><a class="dropdown-item" href="#">Something else here</a></li>
+                         </ul>
+                    </li>
+               </ul>
+               <ul class="nav navbar-nav navbar-right">
+                    <form class="navbar-form navbar-left" action="/action_page.php">
+                         <div class="input-group">
+                              <input type="text" class="form-control" placeholder="Search" name="search">
+                              <div class="input-group-btn">
+                                   <button class="btn btn-default" type="submit">
+                                        <i class="glyphicon glyphicon-search"></i>
+                                   </button>
+                              </div>
+                         </div>
+                    </form>
+                    <li><a href="#"><span class="glyphicon glyphicon-user"></span> {{session['username']}}</a></li>
+                    <li><a href="{{url_for('login')}}"><span class="glyphicon glyphicon-log-in"></span> ออกจากระบบ</a>
+                    </li>
+               </ul>
+          </div>
+     </div>
+</nav>
+<div class="container">
+     <div class="row">
+          <aside class="col-md-3">
+
+               <div class="card">
+
+                    <article class="filter-group">
+                         <header class="card-header">
+                              <a href="#" data-toggle="collapse" data-target="#collapse_" aria-expanded="true" class="">
+                                   <i class="icon-control fa fa-chevron-down"></i>
+                                   <h4 class="title">Brands </h4>
+                              </a>
+                         </header>
+
+                         <div class="filter-content collapse show" id="collapse_2" style="">
+                              <div class="card-body">
+                                   <form class="pb-3" action="{{url_for('product')}}" method="post">
+                                        <div class="input-group">
+                                             <input type="text" class="form-control" placeholder="Search"
+                                                  name="brand_search">
+                                             <div class="input-group-btn">
+                                                  <button class="btn btn-default" type="submit">
+                                                       <i class="glyphicon glyphicon-search"></i>
+                                                  </button>
+                                             </div>
+                                        </div>
+
+                                        <div class="filter-content collapse show" id="collapse_2" style="">
+                                             <div class="card-body"
+                                                  style="border:2px #ccc;height: 200px; overflow-y: scroll;margin-top: 10px;">
+                                                  {% for b in brand %}
+                                                  <label class="custom-control custom-checkbox">
+
+                                                       <input type="checkbox" class="custom-control-input brand"
+                                                            value="{{b.brand}}">
+                                                       <div class="custom-control-label">{{b.brand}}
+                                                            <b
+                                                                 class="badge badge-pill badge-light float-right">{{b.count}}</b>
+                                                       </div>
+                                                  </label>
+                                                  {% endfor %}
+                                             </div> <!-- card-body.// -->
+                                        </div>
+
+                                   </form>
+
+                              </div> <!-- card-body.// -->
+                         </div>
+                    </article> <!-- filter-group  .// -->
+                    <article class="filter-group">
+
+                         <header class="card-header">
+                              <a href="#" data-toggle="collapse" data-target="#collapse_" aria-expanded="true" class="">
+                                   <i class="icon-control fa fa-chevron-down"></i>
+                                   <h4 class="title">Countries</h4>
+                              </a>
+                         </header>
+                         <div class="filter-content collapse show" id="collapse_2" style="">
+                              <div class="card-body">
+                                   <form class="pb-3" action="{{url_for('product')}}" method="post">
+
+                                        <div class="filter-content collapse show" id="collapse_2" style="">
+                                             <div class="card-body"
+                                                  style="border:2px #ccc;height: 200px; overflow-y: scroll;margin-top: 10px;">
+                                                  {% for c in country %}
+                                                  <label class="custom-control custom-checkbox">
+
+                                                       <input type="checkbox" class="custom-control-input country"
+                                                            value="{{c.country}}">
+                                                       <div class="custom-control-label">{{c.country}}
+                                                            <b
+                                                                 class="badge badge-pill badge-light float-right">{{c.count}}</b>
+                                                       </div>
+                                                  </label>
+                                                  {% endfor %}
+                                             </div> <!-- card-body.// -->
+                                        </div>
+
+                                   </form>
+
+                              </div> <!-- card-body.// -->
+                         </div>
+                    </article> <!-- filter-group .// -->
+
+                    <article class="filter-group">
+                         <header class="card-header">
+                              <a href="#" data-toggle="collapse" data-target="#collapse_" aria-expanded="true" class="">
+                                   <i class="icon-control fa fa-chevron-down"></i>
+                                   <h4 class="title">skin_type</h4>
+                              </a>
+                         </header>
+                         <div class="filter-content collapse show" id="collapse_2" style="">
+                              <div class="card-body">
+                                   <form class="pb-3" action="{{url_for('product')}}" method="post">
+
+                                        <div class="filter-content collapse show" id="collapse_2" style="">
+                                             <div class="card-body"
+                                                  style="border:2px #ccc;height: 200px;margin-top: 10px;">
+                                                  {% for skin in skin_type %}
+                                                  <label class="custom-control custom-checkbox">
+
+                                                       <input type="checkbox" class="custom-control-input skin_type"
+                                                            value="{{skin.skin_type}}">
+                                                       <div class="custom-control-label">{{skin.skin_type}}
+                                                            <b
+                                                                 class="badge badge-pill badge-light float-right">{{skin.count}}</b>
+                                                       </div>
+                                                  </label>
+                                                  {% endfor %}
+                                             </div> <!-- card-body.// -->
+                                        </div>
+
+                                   </form>
+
+                              </div> <!-- card-body.// -->
+                         </div>
+                    </article> <!-- filter-group .// -->
+
+                    <article class="filter-group">
+
+                         <header class="card-header">
+                              <a href="#" data-toggle="collapse" data-target="#collapse_" aria-expanded="true" class="">
+                                   <i class="icon-control fa fa-chevron-down"></i>
+                                   <h4 class="title">Product_type</h4>
+                              </a>
+                         </header>
+                         <div class="filter-content collapse show" id="collapse_2" style="">
+                              <div class="card-body">
+                                   <form class="pb-3" action="{{url_for('product')}}" method="post">
+
+                                        <div class="filter-content collapse show" id="collapse_2" style="">
+                                             <div class="card-body"
+                                                  style="border:2px #ccc;height: 200px; overflow-y: scroll;margin-top: 10px;">
+                                                  {% for p in product_type %}
+                                                  <label class="custom-control custom-checkbox">
+
+                                                       <input type="checkbox" class="custom-control-input product_type"
+                                                            value="{{p.product_type}}">
+                                                       <div class="custom-control-label">{{p.product_type}}
+                                                            <b
+                                                                 class="badge badge-pill badge-light float-right">{{p.count}}</b>
+                                                       </div>
+                                                  </label>
+                                                  {% endfor %}
+                                             </div> <!-- card-body.// -->
+                                        </div>
+                                   </form>
+
+                              </div> <!-- card-body.// -->
+                         </div>
+
+                    </article> <!-- filter-group .// -->
+                    <article class="filter-group">
+                         <header class="card-header">
+                              <a href="#" data-toggle="collapse" data-target="#collapse_3" aria-expanded="true"
+                                   class="">
+                                   <i class="icon-control fa fa-chevron-down"></i>
+                                   <h4 class="title">Price</h4>
+                              </a>
+                         </header>
+                         <div class="filter-content collapse show" id="collapse_3" style="">
+                              <div class="card-body">
+                                   <form class="pb-3" action="{{url_for('product')}}" method="post">
+                                        <div class="form-row">
+                                             <div class="form-group col-md-6">
+                                                  <label>Min</label>
+                                                  <input class="form-control" placeholder="฿0" type="number"
+                                                       id="min_price" class="custom-control-input min_price">
+                                             </div>
+                                             <div class="form-group text-right col-md-6">
+                                                  <label>Max</label>
+                                                  <input class="form-control" placeholder="฿10,000" type="number"
+                                                       id="max_price" class="custom-control-input max_price">
+
+                                             </div>
+
+                                        </div> <!-- form-row.// -->
+                                        <center><button type="button" class="btn btn-block btn-primary">ยืนยัน</button></center>
+                                   </form>
+                              </div><!-- card-body.// -->
+                         </div>
+                    </article> <!-- filter-group .// -->
+
+
+               </div> <!-- card.// -->
+
+          </aside>
+
+          <!--{% for row in rows %}
+          <main style="width: 850px;">
+               <div class="col-md-3 mt-5">
+                    <div class="card-sl" style="width: 100%;height: 280px;">
+
+                         <div class="card-image">
+                              <center><img src="{{row.img_list}}" width="200" height="150"></center>
+                         </div>
+
+                         <a class="card-action" href="#"><i class="fa fa-heart"></i></a>
+                         <div class="card-heading">
+                              <small id="product_name">{{row.product_name}}</small>
+                         </div>
+                         <div class="card-text">
+                              <h4 style="color: #000080;"><b>฿{{row.price}}</b></h4>
+                         </div class="card-footer">
+                         <a href="{{url_for('detail_product',id=row.product_id)}}"
+                              class="card-button">รายละเอียดสินค้า</a>
+                    </div>
+               </div>
+
+               {% endfor %}
+
+     </div>
+     </main>-->
+          <div class="col-md-9">
+               <div class="row filter_data">
+               </div>
+          </div>
+     </div>
+</div>
+
+<style>
+     #loading {
+          text-align: center;
+          background: url('/static/images/loading.gif') no-repeat center;
+          height: 200px;
+
+     }
+</style>
+<script>
+     function change_page(page_num) {
+          console.log(page_num)
+          $('.filter_data').html('<div id="loading" style="" ></div>');
+          var action = 'fetch_data';
+          var brand = get_filter('brand');
+          var country = get_filter('country');
+          var skin_type = get_filter('skin_type');
+          var product_type = get_filter('product_type');
+          var min_price = $('#min_price').val();
+          var max_price = $('#max_price').val();
+          $.ajax({
+               url: "/response_product?page=" + page_num,
+               method: "POST",
+               data: { action: action, brand: brand, country: country, skin_type: skin_type, product_type: product_type, min_price: min_price, max_price: max_price, page: page_num },
+               success: function (data) {
+                    $('.filter_data').html(data);
+                    $(".filter_data").append(data.htmlresponse);
+
+               }
+          });
+
+
+     }
+
+     function get_filter(class_name) {
+          var filter = [];
+          $('.' + class_name + ':checked').each(function () {
+               filter.push($(this).val());
+          });
+          return filter;
+     }
+
+     $(document).ready(function () {
+
+          filter_data();
+
+          function filter_data() {
+               $('.filter_data').html('<div id="loading" style="" ></div>');
+               var action = 'fetch_data';
+               var brand = get_filter('brand');
+               var country = get_filter('country');
+               var skin_type = get_filter('skin_type');
+               var product_type = get_filter('product_type');
+               var min_price = $('#min_price').val();
+               var max_price = $('#max_price').val();
+               $.ajax({
+                    url: "/response_product",
+                    method: "POST",
+                    data: { action: action, brand: brand, country: country, skin_type: skin_type, product_type: product_type, min_price: min_price, max_price: max_price },
+                    success: function (data) {
+                         $('.filter_data').html(data);
+                         $(".filter_data").append(data.htmlresponse);
+
+                    }
+               });
+
+          }
+          function change_page(page_num) {
+               console.log(page_num)
+               filter_data();
+
+          }
+          function get_filter(class_name) {
+               var filter = [];
+               $('.' + class_name + ':checked').each(function () {
+                    filter.push($(this).val());
+               });
+               return filter;
+          }
+
+          $('.custom-control-input').click(function () {
+               filter_data();
+          });
+          $('.btn').click(function () {
+               filter_data();
+          });
+
+     })
+</script>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+{% for category, message in messages %}
+{% if category=="success" %}
+<script>
+
+     Swal.fire({
+          icon: "success",
+          title: "{{message}}",
+          showConfirmButton: true,
+
+
+     })
+
+</script>
+{% else %}
+<script>
+
+     Swal.fire({
+          icon: "error",
+          title: "{{message}}",
+          showConfirmButton: true,
+
+
+     })
+
+</script>
+{% endif %}
+{% endfor %}
+{% endif %}
+{% endwith %}
+{% endblock %}

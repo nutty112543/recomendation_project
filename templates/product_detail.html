@@ -1,0 +1,275 @@
+{% extends "layout.html" %}
+{% block content %}
+{% for row in result1 %}
+<div class="container">
+    <br>
+    <div class="card">
+        <div class="row">
+            <aside class="col-sm-5 border-right">
+                <article class="gallery-wrap">
+                    <div class="img-big-wrap">
+                        <div><img src="{{row.img_list}}" alt="{{row.product_name}}" id="myImg">
+                        </div> <!-- slider-product.// -->
+                </article> <!-- gallery-wrap .end// -->
+            </aside>
+            <aside class="col-sm-7">
+                <article class="card-body p-5">
+                    <h3 class="title mb-3">{{row.product_name}}</h3>
+
+                    <p class="price-detail-wrap">
+                        <span class="price h3 text-warning">
+                            <span class="currency"></span><span class="num">฿{{row.price}} </span>
+                        </span>
+                    </p> <!-- price-detail-wrap .// -->
+                    <dl class="item-property">
+                        <dt>รายละเอียดสินค้า</dt>
+                        <dd>
+                            <p>{{row.detail}} &nbsp;&nbsp;<button type="submit" class="btn btn-primary btn-sm"
+                                    id="btnID">Read
+                                    more...</button></p>
+                        </dd>
+
+                    </dl>
+                    <dl class="item-property" id="my_text">
+
+                        <p>{{row.detail2}} &nbsp;&nbsp;</p>
+                        <button type="submit" class="btn btn-danger btn-sm" id="btnID2">Close <i
+                                class="fa-solid fa-xmark"></i></button>
+                    </dl>
+
+
+
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-5">
+
+                            <dl class="item-property">
+                                <dt>Brand</dt>
+                                <dd>
+                                    <p>{{row.brand}}</p>
+                                </dd>
+                            </dl>
+                            <dl class="param param-feature">
+                                <dt>ประเภทผลิตภัณฑ์</dt>
+                                <dd>{{row.product_type}}</dd>
+                            </dl> <!-- item-property-hor .// -->
+                            <dl class="param param-feature">
+                                <dt>สภาพผิว</dt>
+                                <dd>{{row.skin_type}}</dd>
+                            </dl> <!-- item-property-hor .// -->
+                            <dl class="param param-feature">
+                                <dt>ประเทศนำเข้า</dt>
+                                <dd>{{row.country}}</dd>
+                            </dl> <!-- item-property-hor .// -->
+                        </div> <!-- col.// -->
+                        <div class="col-sm-7">
+                            <dl class="param param-inline">
+                                <dt> </dt>
+                                
+                            </dl> <!-- item-property .// -->
+                        </div> <!-- col.// -->
+                    </div> <!-- row.// -->
+                    <hr>
+                    <a href="#" class="btn btn-lg btn-danger text-uppercase"><i class="fa-solid fa-heart"></i> ถูกใจ</a>
+
+                </article> <!-- card-body.// -->
+            </aside> <!-- col.// -->
+        </div> <!-- row.// -->
+    </div> <!-- card.// -->
+
+
+</div>
+<!--container.//-->
+
+
+<br><br><br>
+<div id="myModal" class="modal">
+
+    <!-- The Close Button -->
+    <span class="close" style="font-size: 50px;color: white;">&times;</span>
+
+    <!-- Modal Content (The Image) -->
+    <img class="modal-content" id="img01">
+
+    <!-- Modal Caption (Image Text) -->
+    <div id="caption"></div>
+</div>
+{% endfor %}
+
+<h3 style="margin-left: 100px;"><b>สินค้าที่ใกล้เคียง :<b></h3>
+<div class="container">
+    <div class="row">
+        <div class="MultiCarousel" data-items="1,3,5,6" data-slide="1" id="MultiCarousel" data-interval="1000">
+            <div class="MultiCarousel-inner">
+                {% for row1 in result3 %}
+                {% for row2 in row1 %}
+                <div class="item">
+                    <div class="pad15" style="width: 100%;height: 320px;">
+                        <div class="card-image">
+                            <center><img src="{{row2.img_list}}" width="200" height="150"></center>
+                        </div>
+                        <div class="card-heading">
+                            <small id="product_name">{{row2.product_name}}</small>
+                        </div>
+                        <div class="card-text">
+                            <h4 style="color: #000080;"><b>฿{{row2.price}}</b></h4>
+                        </div>
+                  
+                            <a href="{{url_for('detail_product',id=row2.product_id)}}"
+                                class="card-button">รายละเอียดสินค้า</a>
+                    
+                    </div>
+                </div>
+                {% endfor %}
+                {% endfor %}
+            </div>
+            <button class="btn btn-primary leftLst">
+                < </button>
+                    <button class="btn btn-primary rightLst">></button>
+        </div>
+    </div>
+
+
+    <script>
+        $("#btnID").on("click", function () {
+            $("#my_text").toggle();
+            $('#btnID').hide();
+            // .fadeToggle() // .slideToggle()
+        });
+        $("#btnID2").on("click", function () {
+            $("#my_text").toggle();
+            $('#btnID').show();
+            // .fadeToggle() // .slideToggle()
+        });
+    </script>
+    <script>
+        // Get the modal
+        var modal = document.getElementById("myModal");
+
+        // Get the image and insert it inside the modal - use its "alt" text as a caption
+        var img = document.getElementById("myImg");
+        var modalImg = document.getElementById("img01");
+        var captionText = document.getElementById("caption");
+        img.onclick = function () {
+            modal.style.display = "block";
+            modalImg.src = this.src;
+            captionText.innerHTML = this.alt;
+        }
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+    </script>
+    <script>
+        $(document).ready(function () {
+            var itemsMainDiv = ('.MultiCarousel');
+            var itemsDiv = ('.MultiCarousel-inner');
+            var itemWidth = "";
+
+            $('.leftLst, .rightLst').click(function () {
+                var condition = $(this).hasClass("leftLst");
+                if (condition)
+                    click(0, this);
+                else
+                    click(1, this)
+            });
+
+            ResCarouselSize();
+
+
+
+
+            $(window).resize(function () {
+                ResCarouselSize();
+            });
+
+            //this function define the size of the items
+            function ResCarouselSize() {
+                var incno = 0;
+                var dataItems = ("data-items");
+                var itemClass = ('.item');
+                var id = 0;
+                var btnParentSb = '';
+                var itemsSplit = '';
+                var sampwidth = $(itemsMainDiv).width();
+                var bodyWidth = $('body').width();
+                $(itemsDiv).each(function () {
+                    id = id + 1;
+                    var itemNumbers = $(this).find(itemClass).length;
+                    btnParentSb = $(this).parent().attr(dataItems);
+                    itemsSplit = btnParentSb.split(',');
+                    $(this).parent().attr("id", "MultiCarousel" + id);
+
+
+                    if (bodyWidth >= 1200) {
+                        incno = itemsSplit[3];
+                        itemWidth = sampwidth / incno;
+                    }
+                    else if (bodyWidth >= 992) {
+                        incno = itemsSplit[2];
+                        itemWidth = sampwidth / incno;
+                    }
+                    else if (bodyWidth >= 768) {
+                        incno = itemsSplit[1];
+                        itemWidth = sampwidth / incno;
+                    }
+                    else {
+                        incno = itemsSplit[0];
+                        itemWidth = sampwidth / incno;
+                    }
+                    $(this).css({ 'transform': 'translateX(0px)', 'width': itemWidth * itemNumbers });
+                    $(this).find(itemClass).each(function () {
+                        $(this).outerWidth(itemWidth);
+                    });
+
+                    $(".leftLst").addClass("over");
+                    $(".rightLst").removeClass("over");
+
+                });
+            }
+
+
+            //this function used to move the items
+            function ResCarousel(e, el, s) {
+                var leftBtn = ('.leftLst');
+                var rightBtn = ('.rightLst');
+                var translateXval = '';
+                var divStyle = $(el + ' ' + itemsDiv).css('transform');
+                var values = divStyle.match(/-?[\d\.]+/g);
+                var xds = Math.abs(values[4]);
+                if (e == 0) {
+                    translateXval = parseInt(xds) - parseInt(itemWidth * s);
+                    $(el + ' ' + rightBtn).removeClass("over");
+
+                    if (translateXval <= itemWidth / 2) {
+                        translateXval = 0;
+                        $(el + ' ' + leftBtn).addClass("over");
+                    }
+                }
+                else if (e == 1) {
+                    var itemsCondition = $(el).find(itemsDiv).width() - $(el).width();
+                    translateXval = parseInt(xds) + parseInt(itemWidth * s);
+                    $(el + ' ' + leftBtn).removeClass("over");
+
+                    if (translateXval >= itemsCondition - itemWidth / 2) {
+                        translateXval = itemsCondition;
+                        $(el + ' ' + rightBtn).addClass("over");
+                    }
+                }
+                $(el + ' ' + itemsDiv).css('transform', 'translateX(' + -translateXval + 'px)');
+            }
+
+            //It is used to get some elements from btn
+            function click(ell, ee) {
+                var Parent = "#" + $(ee).parent().attr("id");
+                var slide = $(Parent).attr("data-slide");
+                ResCarousel(ell, Parent, slide);
+            }
+
+        });
+    </script>
+    {% endblock %}
